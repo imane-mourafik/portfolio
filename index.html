@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Imane | Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+    <canvas id="bg-canvas"></canvas> <!-- <-- Canvas pour les points -->
+    <img src="images/image.jpg" alt="Photo Imane" class="profile-pic">
+    <h1>Imane Mourafik</h1>
+    <p class="subtitle">
+        Étudiante en informatique orientée <strong>Data & Intelligence Artificielle</strong><br>
+        et <strong>développement d’applications</strong><br>
+        Je conçois des solutions fiables basées sur l’analyse et le traitement des données
+    </p>
+    <button class="btn" id="btn-show-profile">Découvrir mon profil</button>
+</header>
+
+
+<!-- PROFIL (caché au départ) -->
+<div id="profile" class="profile hidden">
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="#skills">Compétences</a>
+        <a href="#projects">Projets</a>
+        <a href="#about">À propos</a>
+        <a href="#academic">Parcours Académique</a>
+        <a href="#interests">Centres d’intérêt</a>
+    </nav>
+
+    <!-- Compétences -->
+    <section id="skills" class="skills">
+        <h2>Compétences clés</h2>
+        <div class="skills-container">
+
+            <div class="skill-card">
+                <h3>💻 Développement logiciel</h3>
+                <p>Java JEE, Spring Boot</p>
+                <p>HTML, CSS, JavaScript</p>
+                <p>Angular, Flutter</p>
+                <p>Architecture applicative et backend</p>
+            </div>
+
+            <div class="skill-card">
+                <h3>🤖 Data & Intelligence Artificielle</h3>
+                <p>Analyse et traitement de données</p>
+                <p>Machine Learning : classification, clustering, prédiction</p>
+                <p>Modélisation statistique : ANOVA, GLM, Régression</p>
+                <p>Séries temporelles et prévision</p>
+                <p>Préparation et nettoyage des données</p>
+            </div>
+
+            <div class="skill-card">
+                <h3>🗄️ Bases de données</h3>
+                <p>SQL : MySQL, PostgreSQL</p>
+                <p>NoSQL : MongoDB</p>
+                <p>Modélisation, requêtes et optimisation</p>
+            </div>
+
+            <div class="skill-card">
+                <h3>🧠 Méthodes & Outils</h3>
+                <p>Excel avancé</p>
+                <p>R, Python, SPSS, Matlab</p>
+                <p>UML, SCRUM, travail en équipe</p>
+                <p>DevOps : CI/CD, Git</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Projets -->
+    <section id="projects" class="projects">
+        <h2>Projets Académiques & PFA</h2>
+        <div class="projects-container">
+            <div class="project-card">
+                <h3>Gestion de stock et personnel (Web)</h3>
+                <p>Application web pour gérer le stock et le personnel d’une préfecture.</p>
+            </div>
+            <div class="project-card">
+                <h3>Classification d’images (Python)</h3>
+                <p>Projet de Data Science : classification d’images avec Machine Learning.</p>
+            </div>
+            <div class="project-card">
+                <h3>Gestion de workflow (Web)</h3>
+                <p>Application web pour suivre et gérer les workflows d’une organisation.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- À propos -->
+    <section id="about" class="about">
+        <h2>À propos de moi</h2>
+        <p>
+            Je suis passionnée par l’informatique, le traitement des données et le développement d’applications intelligentes.
+        </p>
+        <p>
+            J’aime transformer des modèles statistiques en solutions concrètes et explorer de nouvelles technologies.
+        </p>
+    </section>
+
+    <!-- Parcours académique -->
+    <section id="academic" class="academic">
+        <h2>Parcours Académique</h2>
+        <ul>
+            <li>2024 – Présent : Cycle d’ingénieur en Data Science et Informatique – FSTM, Mohammedia</li>
+            <li>2022 – 2024 : DEUST Mathématiques, Informatique et Physique – FSTM, Mohammedia</li>
+            <li>2022 : Baccalauréat Sciences Physiques, Lycée Mohammed ben Abd Krim Khatabi – Mention Très Bien</li>
+        </ul>
+    </section>
+
+    <!-- Centres d’intérêt -->
+    <section id="interests" class="interests">
+        <h2>Centres d’intérêt</h2>
+        <ul>
+            <li>Découvertes scientifiques</li>
+            <li>Histoire et culture</li>
+            <li>Lecture, Voyage</li>
+        </ul>
+    </section>
+
+</div>
+
+<!-- SCRIPT JS -->
+<script>
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+// Créer des particules
+for (let i = 0; i < 80; i++) {
+    particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2 + 1,
+        dx: (Math.random() - 0.5) * 0.5,
+        dy: (Math.random() - 0.5) * 0.5
+    });
+}
+
+// Animation des particules
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,0.6)';
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
+        // Rebondir sur les bords
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+    });
+    requestAnimationFrame(animateParticles);
+}
+animateParticles();
+const btn = document.getElementById('btn-show-profile');
+const hero = document.querySelector('.hero');
+const profile = document.getElementById('profile');
+
+btn.addEventListener('click', function(){
+    // Faire disparaître le hero
+    hero.classList.add('hide');
+
+    // Afficher le profil après un petit délai
+    setTimeout(() => {
+        hero.style.display = 'none';
+        profile.classList.remove('hidden');
+        profile.classList.add('show');
+
+        // Faire apparaître les cartes avec effet
+        document.querySelectorAll('.skill-card, .project-card').forEach((el, i) => {
+            setTimeout(()=> el.classList.add('show'), i*200);
+        });
+    }, 800);
+});
+</script>
+
+
+</body>
+</html>
